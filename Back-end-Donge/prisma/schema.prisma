@@ -8,12 +8,13 @@ datasource db {
 }
 
 model Users {
-  id        Int      @id @default(autoincrement())
-  name      String
-  phone     String   @unique
-  password  String?
-  owes      BigInt   @default(0)
-  debts     BigInt   @default(0)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         Int      @id @default(autoincrement())
+  name       String?
+  phone      String   @unique
+  password   String?
+  owes       BigInt   @default(0)
+  debts      BigInt   @default(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  isVerified Boolean  @default(false)
 }
