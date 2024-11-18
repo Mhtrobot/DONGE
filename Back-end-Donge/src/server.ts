@@ -4,6 +4,7 @@ import session from "express-session";
 import fs from "fs";
 import path from "path";
 import swaggerUi from "swagger-ui-express";
+import authRoutes from "./routes/authRoutes";
 
 const app = express();
 app.use(cors());
@@ -15,6 +16,8 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
 }));
+
+app.use('/user-auth', authRoutes);
 
 const swaggerDocument = JSON.parse(fs.readFileSync(path.join(__dirname, 'swagger-output.json'), 'utf-8'));
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
