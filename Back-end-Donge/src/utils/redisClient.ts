@@ -20,4 +20,8 @@ export class RedisClient {
     async get(key: string) {
         return await this.client.get(key);
     }
+
+    async exists(key: string) {
+        return await this.client.exists(key) === 1;
+    }
 }
