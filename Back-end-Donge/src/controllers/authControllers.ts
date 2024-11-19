@@ -56,7 +56,8 @@ export const verifyOTP = async (req, res) => {
         success: true,
         message: `صحت سنجی شماره ${phone} با موفقیت انجام شد✔`,
         token,
-        token_type: "Bearer"
+        token_type: "Bearer",
+        exists: dbResult.exists,
     });
 };
 

@@ -62,7 +62,8 @@ export class UserRepository {
 
                 return {
                     success: true,
-                    user: newUser
+                    user: newUser,
+                    exists: false,
                 };
             }
 
@@ -77,7 +78,8 @@ export class UserRepository {
 
             return {
                 success: true,
-                user: user
+                user: user,
+                exists: true,
             };
         } catch (error) {
             logger.error(error, "signUserByVerificationCode");
