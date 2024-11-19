@@ -5,6 +5,7 @@ import {validationResult} from "express-validator";
 import logger from "../core/logger";
 import {generateJWT} from "../core/JWT";
 import {UserRepository} from "../repositories/userRepositories";
+import {UserAuthenticatedReq} from "../interfaces/AuthenticatedRequest";
 
 const authServices = container.resolve(AuthServices);
 const userRepository = container.resolve(UserRepository);
@@ -58,3 +59,9 @@ export const verifyOTP = async (req, res) => {
         token_type: "Bearer"
     });
 };
+
+export const validate = async (req: UserAuthenticatedReq, res) => {
+    return res.json({
+        id: req.user.id
+    })
+}
