@@ -5,6 +5,7 @@ import fs from "fs";
 import path from "path";
 import swaggerUi from "swagger-ui-express";
 import authRoutes from "./routes/authRoutes";
+import userRoutes from "./routes/userRoutes";
 
 const app = express();
 app.use(cors());
@@ -18,6 +19,7 @@ app.use(session({
 }));
 
 app.use('/user-auth', authRoutes);
+app.use('/user', userRoutes);
 
 const swaggerDocument = JSON.parse(fs.readFileSync(path.join(__dirname, 'swagger-output.json'), 'utf-8'));
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
