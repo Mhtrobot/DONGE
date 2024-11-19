@@ -4,6 +4,43 @@ import {injectable} from "tsyringe";
 
 @injectable()
 export class UserRepository {
+    async getUserData(userId: number) {
+        try {
+            const user = await db.users.findFirst({
+                where: {
+                    id: userId,
+                },
+            });
+            if (!user) {
+                return {
+                    success: false,
+                    message: "کاربر یافت نشد ❌",
+                }
+            }
+
+            return {
+                success: true,
+                data: {
+                    id: user.id,
+                    name: user.name,
+                    phone: user.phone,
+                    owes: user.owes.toString(),
+                    debts: user.debts.toString(),
+                    createdAt: user.createdAt,
+                }
+            }
+        } catch (error) {
+            logger.error(error, "error in getting user data", {
+                section: "userRepository->getUserData",
+            });
+
+            return {
+                success: false,
+                message: "خطایی در دریافت اطلاعات کاربر رخ داد ❌",
+            }
+        }
+    }
+
     async signInByVerificationCode(phone: string) {
         try {
             const user = await db.users.findFirst({
