@@ -16,5 +16,5 @@ Back-End-Donge:
         middlewares: stays between the api and the controllers
         repositories: this folder integerates with the DataBase and can be injected from other parts of the service
         routes: initializes the apis and handles the middlewares and pass them to controllers
-        services: handles logics and some implentations
+        services: handles logics and some implentations... most of them db related
         utils: holds basic connections
