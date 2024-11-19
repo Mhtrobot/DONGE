@@ -2,6 +2,7 @@ import {inject, injectable} from "tsyringe";
 import {UserRepository} from "../repositories/userRepositories";
 import {RedisClient} from "../utils/redisClient";
 import logger from "../core/logger";
+import bcrypt from 'bcryptjs';
 
 @injectable()
 export class AuthServices {
@@ -51,5 +52,10 @@ export class AuthServices {
             success: false,
             message: "کد نادرست است❌"
         }
+    }
+
+    async hashPassword(userId: number, password: string) {
+        const hashedPassword = await bcrypt.hash(password, 12);
+        return await this.userRepository.setHashedPassword(userId, hashedPassword);
     }
 }

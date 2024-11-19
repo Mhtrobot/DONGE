@@ -50,4 +50,43 @@ export class UserRepository {
             }
         }
     }
+
+    async setHashedPassword(userId: number, hashedPassword: string) {
+        try {
+            const user = await db.users.findFirst({
+                where: {
+                    id: userId,
+                }
+            });
+            if (!user) {
+                return {
+                    success: false,
+                    message: 'کاربر وجود ندارد ❌',
+                }
+            }
+
+            await db.users.update({
+                where: {
+                    id: userId,
+                },
+                data: {
+                    password: hashedPassword,
+                }
+            });
+
+            return {
+                success: true,
+                message: 'پسورد باموفقیت ذخیره شد✅',
+            }
+        } catch (error) {
+            logger.error(error, "error in setting HashedPassword", {
+                section: "setHashedPassword",
+            });
+
+            return {
+                success: false,
+                message: 'خطا در ثبت اطلاعات کاربر ❌',
+            }
+        }
+    }
 }
