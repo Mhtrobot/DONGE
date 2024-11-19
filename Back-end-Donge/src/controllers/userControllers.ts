@@ -9,6 +9,16 @@ import {AuthServices} from "../services/authServices";
 const userRepository = container.resolve(UserRepository);
 const authServices = container.resolve(AuthServices);
 
+export const getUser = async (req: UserAuthenticatedReq, res) => {
+    const userId = req.user.id;
+
+    const result = await userRepository.getUserData(userId);
+    if (!result.success)
+        return res.status(400).json(result);
+
+    return res.json(result);
+}
+
 export const setPassword = async (req: UserAuthenticatedReq, res) => {
     const error = validationResult(req);
     if (!error.isEmpty())
