@@ -51,6 +51,45 @@ export class UserRepository {
         }
     }
 
+    async setNameUser(userId: number, name: string) {
+        try {
+            const user = await db.users.findFirst({
+                where: {
+                    id: userId,
+                }
+            });
+            if (!user) {
+                return {
+                    success: false,
+                    message: 'کاربر یافت نشد❌',
+                }
+            }
+
+            await db.users.update({
+                where: {
+                    id: userId,
+                },
+                data: {
+                    name,
+                }
+            });
+
+            return {
+                success: true,
+                message: 'اسمت باموفقیت ثبت شد😎🎉\nازین ببعد دوستات تورو با این اسم توی دنگ میبینن😁',
+            }
+        } catch (error) {
+            logger.error(error, "error in setting Name for User", {
+                section: "setNameUser",
+            });
+
+            return {
+                success: false,
+                message: "خطایی در اعمال تغییرات رخ داد❌",
+            }
+        }
+    }
+
     async setHashedPassword(userId: number, hashedPassword: string) {
         try {
             const user = await db.users.findFirst({
