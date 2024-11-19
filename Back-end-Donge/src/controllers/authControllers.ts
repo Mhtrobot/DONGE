@@ -5,7 +5,6 @@ import {validationResult} from "express-validator";
 import logger from "../core/logger";
 import {generateJWT} from "../core/JWT";
 import {UserRepository} from "../repositories/userRepositories";
-import {UserAuthenticatedReq} from "../interfaces/AuthenticatedRequest";
 
 const authServices = container.resolve(AuthServices);
 const userRepository = container.resolve(UserRepository);
@@ -59,18 +58,3 @@ export const verifyOTP = async (req, res) => {
         token_type: "Bearer"
     });
 };
-
-export const setPassword = async (req: UserAuthenticatedReq, res) => {
-    const error = validationResult(req);
-    if (!error.isEmpty())
-        return res.status(400).json({ error: error.array()});
-
-    const userId = req.user.id;
-    const password = req.body.password;
-
-    const result = await authServices.hashPassword(userId, password);
-    if (!result.success)
-        return res.status(400).json(result);
-
-    return res.json(result);
-}
