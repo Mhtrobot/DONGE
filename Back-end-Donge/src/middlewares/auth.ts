@@ -2,7 +2,7 @@ import {NextFunction} from "express";
 import {UserAuthenticatedReq} from "../interfaces/AuthenticatedRequest";
 import {validateJWT} from "../core/JWT";
 
-export const protectUser = async (req: UserAuthenticatedReq, res: Response, next: NextFunction) => {
+export const protectUser = async (req: UserAuthenticatedReq, res, next) => {
     const bearer = req.headers.authorization;
 
     if (!bearer) {
