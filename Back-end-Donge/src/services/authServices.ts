@@ -58,4 +58,24 @@ export class AuthServices {
         const hashedPassword = await bcrypt.hash(password, 12);
         return await this.userRepository.setHashedPassword(userId, hashedPassword);
     }
+
+    async checkPassword(phone: string, password: string) {
+        const dbResult = await this.userRepository.getHashedPassword(phone);
+        if (!dbResult.success)
+            return dbResult;
+
+        const checkHashedPassword = await bcrypt.compare(password, dbResult.hashedPassword);
+        if (!checkHashedPassword) {
+            return {
+                success: false,
+                message: "رمز وارد شده نادرست است ❌",
+            }
+        }
+
+        return {
+            success: true,
+            message: "رمز کاربر تایید شد ✅",
+            userId: dbResult.userId,
+        }
+    }
 }

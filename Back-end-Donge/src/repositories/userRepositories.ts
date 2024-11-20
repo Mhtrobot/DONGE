@@ -167,4 +167,35 @@ export class UserRepository {
             }
         }
     }
+
+    async getHashedPassword(phone: string) {
+        try {
+            const user = await db.users.findFirst({
+                where: {
+                    phone: phone,
+                },
+            });
+            if (!user) {
+                return {
+                    success: false,
+                    message: "کاربر یافت نشد ❌",
+                }
+            }
+
+            return {
+                success: true,
+                userId: user.id,
+                hashedPassword: user.password,
+            }
+        } catch (error) {
+            logger.error(error, "error in getting user's HashedPassword", {
+                section: "userRepository->getHashedPassword",
+            });
+
+            return {
+                success: false,
+                message: "خطا در دریافت اطلاعات کاربر ❌",
+            }
+        }
+    }
 }

@@ -66,3 +66,32 @@ export const validate = async (req: UserAuthenticatedReq, res) => {
         id: req.user.id
     })
 }
+
+export const loginWithPassword = async (req, res) => {
+    const error = validationResult(req);
+    if (!error.isEmpty())
+        return res.status(400).json({ error: error.array() });
+
+    const data = {
+        phone: req.body.phone,
+        password: req.body.password,
+    }
+
+    data.phone = data.phone.replace("+98", "0");
+    if ((data.phone as string).startsWith("98")) {
+        data.phone = data.phone.replace("98", "0");
+    }
+
+    const result = await authServices.checkPassword(data.phone, data.password);
+    if (!result.success)
+        return res.status(400).json(result);
+
+    const token = generateJWT(result.userId);
+
+    return res.json({
+        success: true,
+        message: `صحت سنجی شماره ${data.phone} با موفقیت انجام شد✔`,
+        token,
+        token_type: "Bearer",
+    });
+}
