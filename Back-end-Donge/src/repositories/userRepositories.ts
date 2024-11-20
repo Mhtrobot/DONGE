@@ -198,4 +198,55 @@ export class UserRepository {
             }
         }
     }
+
+    async changePhoneNumber(userId: number, newPhoneNumber: string) {
+        try {
+            const user = await db.users.findFirst({
+                where: {
+                    id: userId,
+                },
+            });
+            if (!user) {
+                return {
+                    success: false,
+                    message: "کاربر یافت نشد ❌",
+                }
+            }
+
+            const phoneExists = await db.users.findFirst({
+                where: {
+                    phone: newPhoneNumber,
+                }
+            });
+            if (phoneExists) {
+                return {
+                    success: false,
+                    message: "این شماره در دست استفاده است 🔐❌",
+                }
+            }
+
+            await db.users.update({
+                where: {
+                    id: userId,
+                },
+                data: {
+                    phone: newPhoneNumber,
+                }
+            });
+
+            return {
+                success: true,
+                message: "شماره شما باموفقیت تغییر کرد ✏✅",
+            }
+        } catch (error) {
+            logger.error(error, "error in setting ChangePhoneNumber", {
+                section: "userRepository->changePhoneNumber",
+            });
+
+            return {
+                success: false,
+                message: "خطا در اعمال تغییرات شماره تلفن شما ❌",
+            }
+        }
+    }
 }
