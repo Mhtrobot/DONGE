@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  iamservice:
+    build:
+      context: .
+      dockerfile: Back-end-Donge/IAMservice/Dockerfile
+    ports:
+      - "4567:3000"
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - .:/app
+      - /app/node_modules
+    depends_on:
+      - db
+      - redis
+
+  db:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: yourpassword
+      MYSQL_DATABASE: yourdatabase
+      MYSQL_USER: yourusername
+      MYSQL_PASSWORD: yourpassword
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+volumes:
+  mysql_data:
+  redis_data:

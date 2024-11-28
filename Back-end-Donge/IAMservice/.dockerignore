@@ -1,0 +1,10 @@
+node_modules
+logs.log
+prisma/migrations
+src/swagger-output.json
+npm-debug.log
+Dockerfile
+docker-compose.yml
+.git
+.gitignore
+src/**/*.spec.ts
