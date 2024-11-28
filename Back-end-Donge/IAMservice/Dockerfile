@@ -13,8 +13,10 @@ RUN npm install
 # Copy the rest of the application code
 COPY . .
 
+RUN npx prisma generate
+
 # Expose the port the app runs on
-EXPOSE 3000
+EXPOSE 4567
 
 # Set environment variables
 ENV NODE_ENV=production

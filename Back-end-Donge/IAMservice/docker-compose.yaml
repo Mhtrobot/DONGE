@@ -4,37 +4,47 @@ services:
   iamservice:
     build:
       context: .
-      dockerfile: Back-end-Donge/IAMservice/Dockerfile
+      dockerfile: Dockerfile
     ports:
-      - "4567:3000"
-    environment:
-      - NODE_ENV=production
+      - "4567:4567"
+    env_file:
+      - .env
     volumes:
       - .:/app
-      - /app/node_modules
     depends_on:
-      - db
-      - redis
-
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    networks:
+      - backend-network
+    command: sh -c "npx prisma migrate dev --name init && npx prisma generate && npm run swagger && npm run dev"
+  
   db:
     image: mysql:latest
     environment:
-      MYSQL_ROOT_PASSWORD: yourpassword
-      MYSQL_DATABASE: yourdatabase
-      MYSQL_USER: yourusername
-      MYSQL_PASSWORD: yourpassword
-    ports:
-      - "3306:3306"
+      MYSQL_ROOT_PASSWORD: admin_1234
+      MYSQL_DATABASE: IAM-Donge-Backend
     volumes:
       - mysql_data:/var/lib/mysql
+    networks:
+      - backend-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-padmin_1234"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   redis:
     image: redis:latest
-    ports:
-      - "6379:6379"
     volumes:
       - redis_data:/data
+    networks:
+      - backend-network
 
 volumes:
   mysql_data:
   redis_data:
+
+networks:
+  backend-network:
