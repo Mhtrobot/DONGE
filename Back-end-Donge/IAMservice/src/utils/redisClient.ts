@@ -24,4 +24,8 @@ export class RedisClient {
     async exists(key: string) {
         return await this.client.exists(key) === 1;
     }
+
+    async delete(key: string) {
+        return await this.client.del(key);
+    }
 }

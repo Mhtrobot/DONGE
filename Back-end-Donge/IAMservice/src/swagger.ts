@@ -9,7 +9,8 @@ const doc = {
         description: "test the routes",
     },
     host: (process.env.BASE_URL as string).split('//')[1],
-    securityDefinitions: {
+   schemes: ['http', 'https'],
+	 securityDefinitions: {
         bearerAuth: {
             type: 'apiKey',
             scheme: 'bearer',

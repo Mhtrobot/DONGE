@@ -42,6 +42,7 @@ export class AuthServices {
         }
 
         if (storedCode === code) {
+            await this.redisClient.delete(phone);
             return {
                 success: true,
                 message: "کاربر تایید شد✔",
