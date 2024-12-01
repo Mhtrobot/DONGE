@@ -10,6 +10,6 @@ const router = express.Router();
 router.get("/", protectUser, getUser);
 router.post('/set-name', protectUser, body('name').isString(), setName);
 router.post('/set-password', protectUser, body('password').isString(), setPassword);
-router.post('/change-phone-request', protectUser, body('password').isString().matches(phoneRegex), body('newPhone').isString().matches(phoneRegex), changePhoneRequest);
+router.post('/change-phone-request', protectUser, body('password').isString(), body('newPhone').isString().matches(phoneRegex), changePhoneRequest);
 
 export default router;

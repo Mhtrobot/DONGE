@@ -43,6 +43,8 @@ export const setName = async (req: UserAuthenticatedReq, res) => {
 
     const userId = req.user.id;
     const name = req.body.name;
+    if (name === '')
+        return res.status(400).json({success: false, message: 'Name cannot be empty'});
 
     const result = await userRepository.setNameUser(userId, name);
     if (!result.success)
