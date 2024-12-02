@@ -8,7 +8,19 @@ import authRoutes from "./routes/authRoutes";
 import userRoutes from "./routes/userRoutes";
 
 const app = express();
-app.use(cors());
+app.use(cors({
+    origin: [
+        'http://127.0.0.1:3001',
+        'http://localhost:3001',
+        'http://localhost:3000',
+        'http://127.0.0.1:3000',
+        'https://dong.phaedra.ir',
+        'http://dong.phaedra.ir',
+    ], // Add your frontend URLs
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: false
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
