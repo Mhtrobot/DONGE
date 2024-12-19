@@ -1,0 +1,6 @@
+node_modules
+src/swagger-output.json
+logs.log
+src/__tests__
+jest.config.js
+.env
