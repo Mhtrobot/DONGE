@@ -8,13 +8,12 @@ const router = express.Router();
 router.use(protectUser);
 
 router.get('/', getCards);
+router.get('/:cardId', getCard);
 
 router.post('/add', 
     body('cardName').isString(), body('cardPan').isString(), 
     addCard
 );
-
-router.get('/:cardId', getCard);
 
 router.delete('/delete/:cardId', deleteCard);
 
