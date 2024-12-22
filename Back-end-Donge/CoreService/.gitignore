@@ -4,4 +4,4 @@ logs.log
 src/__tests__
 jest.config.js
 .env
-src/prisma/migrations
+prisma/migrations
