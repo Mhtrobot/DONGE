@@ -1,0 +1,94 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// Reference IAM Users table
+model Users {
+  id         Int      @id @default(autoincrement())
+  name       String?
+  phone      String   @unique
+  password   String?
+  owes       BigInt   @default(0)
+  debts      BigInt   @default(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  isVerified Boolean  @default(false)
+  
+  // Core service relations
+  cards           Cards[]
+  groups          Groups[]
+  groupMembers    GroupMembers[]
+  reciverUser GroupRequest[] @relation("RequestReciever")
+  senderUser GroupRequest[] @relation("RequestSender")
+  payDuesDebts PayDues[] @relation("payDuesDebts")
+  payDuesCredits PayDues[] @relation("payDuesCredits")
+}
+
+model Cards {
+  id        Int      @id @default(autoincrement())
+  cardPan   String   @unique
+  cardName  String
+  userId    Int?
+  user      Users?    @relation(fields: [userId], references: [id])
+  payDues   PayDues[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Groups {
+  id          Int           @id @default(autoincrement())
+  name        String
+  description String?
+  userId      Int?
+  user        Users?        @relation(fields: [userId], references: [id])
+  members     GroupMembers[]
+  requests    GroupRequest[]
+  payDues     PayDues[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+model GroupMembers {
+  id       Int      @id @default(autoincrement())
+  userId   Int?
+  groupId  Int?
+  isAdmin  Boolean  @default(false)
+  joinedAt DateTime @default(now())
+  user     Users?    @relation(fields: [userId], references: [id])
+  group    Groups?   @relation(fields: [groupId], references: [id])
+}
+
+model GroupRequest {
+  id        Int      @id @default(autoincrement())
+  groupId   Int?
+  userId    Int?
+  senderId  Int?
+  status    String
+  createdAt DateTime @default(now())
+  group     Groups?   @relation(fields: [groupId], references: [id])
+  reciverUser Users? @relation("RequestReciever", fields: [userId], references: [id], onDelete: SetNull)
+  senderUser Users? @relation("RequestSender", fields: [senderId], references: [id], onDelete: SetNull)
+}
+
+model PayDues {
+  id          Int      @id @default(autoincrement())
+  debtorId    Int?
+  creditorId  Int?
+  amount      String
+  currency    String
+  cardId      Int?
+  description String
+  groupId     Int?
+  isPaid      Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  debtor      Users?    @relation("payDuesDebts", fields: [debtorId], references: [id])
+  creditor    Users?    @relation("payDuesCredits", fields: [creditorId], references: [id])
+  card        Cards?    @relation(fields: [cardId], references: [id])
+  group       Groups?   @relation(fields: [groupId], references: [id])
+}
