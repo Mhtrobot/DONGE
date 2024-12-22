@@ -1,5 +1,5 @@
-// import 'reflect-metadata';
-// import './container';
+import 'reflect-metadata';
+import './container';
 import dotenv from "dotenv";
 dotenv.config();
 import app from "./server";
