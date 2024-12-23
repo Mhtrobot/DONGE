@@ -1,10 +1,15 @@
 import { container } from "tsyringe";
 import { GroupServices } from "../services/groupServices";
 import { UserAuthenticatedReq } from "../../../IAMservice/src/interfaces/AuthenticatedRequest";
+import { validationResult } from "express-validator";
 
 const groupServices = container.resolve(GroupServices);
 
 export const addGroup = async (req: UserAuthenticatedReq, res) => {
+    const error = validationResult(req);
+    if (!error.isEmpty())
+        return res.status(400).json({message: error.array()});
+
     const {name, description} = req.body;
     const userId = req.user.id;
 
@@ -37,6 +42,10 @@ export const getOwenedGroup = async (req: UserAuthenticatedReq, res) => {
 };
 
 export const updateGroup = async (req: UserAuthenticatedReq, res) => {
+    const error = validationResult(req);
+    if (!error.isEmpty())
+        return res.status(400).json({message: error.array()});  
+    
     const userId = req.user.id;
     const groupId = parseInt(req.params.groupId);
     const {name, description} = req.body;
