@@ -52,6 +52,33 @@ export class GroupRequestRepository {
                 }
             }
 
+            const isMember = await db.groupMembers.findFirst({
+                where: {
+                    groupId,
+                    userId: reciever.id,
+                }
+            });
+            if (isMember) {
+                return {
+                    success: false,
+                    message: "کاربر مورد نظر عضو گروه است ❌"
+                }
+            }
+
+            const isRequested = await db.groupRequest.findFirst({
+                where: {
+                    groupId,
+                    senderId,
+                    userId: reciever.id
+                }
+            });
+            if (isRequested) {
+                return {
+                    success: false,
+                    message: "شما قبلا برای این کاربر درخواست ارسال کرده اید ❌"
+                }
+            }
+
             const groupRequest = await db.groupRequest.create({
                 data: {
                     groupId,
