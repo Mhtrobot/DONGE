@@ -7,6 +7,7 @@ import { GroupServices } from '../services/groupServices';
 import { GroupRequestRepository } from '../repositories/groupRequestRepository';
 import { GroupRequestServices } from '../services/groupRequestServices';
 import { GroupMemberRepository } from '../repositories/groupMemberRepository';
+import { GroupMemberServices } from '../services/groupMemberServices';
 
 container.registerSingleton<CardsRepository>('CardsRepository', CardsRepository);
 container.registerSingleton<CardsServices>('CardsServices', CardsServices);
@@ -18,3 +19,4 @@ container.registerSingleton<GroupRequestRepository>('GroupRequestRepository', Gr
 container.registerSingleton<GroupRequestServices>('GroupRequestServices', GroupRequestServices);
 
 container.registerSingleton<GroupMemberRepository>('GroupMemberRepository', GroupMemberRepository);
+container.registerSingleton<GroupMemberServices>('GroupMemberServices', GroupMemberServices);
