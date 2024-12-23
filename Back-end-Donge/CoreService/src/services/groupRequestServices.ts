@@ -1,12 +1,13 @@
 import { inject, injectable } from "tsyringe";
 import { GroupRequestRepository } from "../repositories/groupRequestRepository";
 import { GroupMemberRepository } from "../repositories/groupMemberRepository";
+import { GroupMemberServices } from "./groupMemberServices";
 
 @injectable()
 export class GroupRequestServices {
     constructor(
         @inject('GroupRequestRepository') private groupRequestRepository: GroupRequestRepository,
-        @inject('GroupMemberRepository') private groupMemberRepository: GroupMemberRepository
+        @inject('GroupMemberServices') private groupMemberServices: GroupMemberServices,
     ) {}
 
     async createGroupRequest(groupId: number, senderId: number, recieverPhone: string) {
@@ -22,7 +23,7 @@ export class GroupRequestServices {
         if (!result.success)
             return result;
 
-        const addMember = await this.groupMemberRepository.addMember(result.groupReq.groupId, userId);
+        const addMember = await this.groupMemberServices.addMember(result.groupReq.groupId, userId);
         if (!addMember.success)
             return addMember;
 
