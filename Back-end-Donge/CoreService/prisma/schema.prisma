@@ -68,7 +68,7 @@ model GroupRequest {
   groupId   Int?
   userId    Int?
   senderId  Int?
-  status    String
+  isAccepted    Boolean  @default(false)
   createdAt DateTime @default(now())
   group     Groups?   @relation(fields: [groupId], references: [id])
   reciverUser Users? @relation("RequestReciever", fields: [userId], references: [id], onDelete: SetNull)
