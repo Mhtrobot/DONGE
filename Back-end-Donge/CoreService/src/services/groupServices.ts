@@ -7,6 +7,10 @@ export class GroupServices {
         @inject('GroupRepository') private groupRepository: GroupRepository
     ) {}
 
+    async getGroupById(groupId: number) {
+        return await this.groupRepository.getGroupById(groupId);
+    }
+
     async addNewGroup(name: string, description: string, userId: number) {
         return await this.groupRepository.createGroup(name, description, userId);
     }

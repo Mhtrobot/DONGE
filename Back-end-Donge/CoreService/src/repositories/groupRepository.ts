@@ -129,6 +129,36 @@ export class GroupRepository {
         }
     }
 
+    async getGroupById(groupId: number) {
+        try {
+            const group = await db.groups.findFirst({
+                where: {
+                    id: groupId
+                }
+            });
+            if (!group) {
+                return {
+                    success: false,
+                    message: "گروهی با این شناسه پیدا نشد ❌"
+                }
+            }
+
+            return {
+                success: true,
+                group,
+            };
+        } catch (error) {
+            logger.error(error, {
+                section: "groupRepository->getGroupById"
+            });
+
+            return {
+                success: false,
+                message: "متاسفانه نتونستیم گروه رو بیاریم ❌😔",
+            }
+        }
+    }
+
     async updateGroup(groupId: number, userId: number, name: string, description: string) {
         try {
             const user = await db.users.findFirst({
