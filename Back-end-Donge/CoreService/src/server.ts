@@ -8,6 +8,7 @@ import cardsRoutes from "./routes/cardsRoutes";
 import groupRoutes from "./routes/groupRoutes";
 import groupRequestRoutes from "./routes/groupRequestRoutes";
 import groupMemberRoutes from "./routes/groupMemberRoutes";
+import payDuesRoutes from "./routes/payDuesRoutes";
 
 const app = express();
 app.use(cors());
@@ -24,6 +25,7 @@ app.use('/cards', cardsRoutes);
 app.use('/owenedGroups', groupRoutes);
 app.use('/groupMember', groupMemberRoutes);
 app.use('/groupRequest', groupRequestRoutes);
+app.use('/payDues', payDuesRoutes);
 
 const swaggerDocument = JSON.parse(fs.readFileSync(path.join(__dirname, 'swagger-output.json'), 'utf-8'));
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
