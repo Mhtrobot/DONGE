@@ -18,12 +18,21 @@ export class PayDuesServices {
         if (!gp.success) 
             return gp;
 
-        const isDebtorInGroup = await this.groupMemberServices.getMember(groupId, debtorId);
-        const isCreditorInGroup = await this.groupMemberServices.getMember(groupId, creditorId);
-        if (!isDebtorInGroup.success || !isCreditorInGroup.success) {
-            return {
-                success: false,
-                message: "کاربری با این شناسه در گروه شما نیست ❌"
+        if (gp.group.userId !== creditorId) {
+            const isCreditorInGroup = await this.groupMemberServices.getMember(groupId, creditorId);
+            if (!isCreditorInGroup.success) {
+                return {
+                    success: false,
+                    message: "کاربری با این شناسه در گروه شما نیست ❌"
+                }
+            }
+        } else if (gp.group.userId !== debtorId) {
+            const isDebtorInGroup = await this.groupMemberServices.getMember(groupId, debtorId);
+            if (!isDebtorInGroup.success) {
+                return {
+                    success: false,
+                    message: "کاربری با این شناسه در گروه شما نیست ❌"
+                }
             }
         }
         

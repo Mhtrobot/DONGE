@@ -12,7 +12,7 @@ export const createPayDues = async (req: UserAuthenticatedReq, res) => {
     
     const {creditorId, debtorId, groupId, cardId, amount, currency, description} = req.body;
     const userId = req.user.id;
-    if (userId !== creditorId || userId !== debtorId)
+    if (userId !== creditorId && userId !== debtorId)
         return res.status(400).json({success: false, message: "شناسه کاربری شما با شناسه بدهکار یا بستانکار یکسان نیست ❌"});
     
     const result = await payDuesServices.createPayDues(creditorId, debtorId, groupId, cardId, amount, currency, description);
