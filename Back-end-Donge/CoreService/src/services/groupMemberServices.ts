@@ -9,6 +9,26 @@ export class GroupMemberServices {
         @inject('GroupServices') private groupServices: GroupServices
     ) {}
 
+    async joinedGroups(userId: number) {
+        const owenedGp = await this.groupServices.getOwnedGroups(userId);
+        if (!owenedGp.success) {
+            return owenedGp;
+        }
+
+        const joinedGp = await this.groupMemberRepository.getJoinedGroups(userId);
+        if (!joinedGp.success) {
+            return joinedGp;
+        }
+
+        return {
+            success: true,
+            data: {
+                owenedGroups: owenedGp.groups,
+                joinedGroups: joinedGp.data
+            }
+        }
+    }
+
     async addMember(groupId: number, userId: number) {
         const isUserMember = await this.groupMemberRepository.getMember(groupId, userId);
         if (isUserMember.success) {

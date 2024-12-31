@@ -14,6 +14,15 @@ const groupMemberServices = container.resolve(GroupMemberServices);
 //     return res.json(result);
 // }
 
+export const getGroups = async (req: UserAuthenticatedReq, res) => {
+    const userId = req.user.id;
+    const result = await groupMemberServices.joinedGroups(userId);
+    if (!result.success)
+        return res.status(400).json(result);
+
+    return res.json(result);
+}
+
 export const getMembers = async (req, res) => {
     const groupId = parseInt(req.params.groupId);
     const result = await groupMemberServices.getMembers(groupId);

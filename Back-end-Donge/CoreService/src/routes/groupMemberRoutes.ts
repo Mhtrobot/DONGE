@@ -1,11 +1,13 @@
 import express from 'express';
 import { protectUser } from '../middlewares/auth';
-import { getMembers, leaveGroup, removeMember, updateAdminStatus } from '../controllers/groupMemberControllers';
+import { getGroups, getMembers, leaveGroup, removeMember, updateAdminStatus } from '../controllers/groupMemberControllers';
 import { body } from 'express-validator';
 
 const router = express.Router();
 
 router.use(protectUser);
+
+router.get('/groups', getGroups)
 
 router.get('/:groupId', getMembers);
 

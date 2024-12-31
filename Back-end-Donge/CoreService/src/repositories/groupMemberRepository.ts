@@ -272,4 +272,60 @@ export class GroupMemberRepository {
             }
         }
     }
+
+    async getJoinedGroups(userId: number) {
+        try {
+            const user = await db.users.findFirst({
+                where: {
+                    id: userId
+                }
+            });
+            if (!user) {
+                return {
+                    success: false,
+                    message: "کاربری با این شناسه پیدا نشد ❌"
+                }
+            }
+            
+            const groups = await db.groupMembers.findMany({
+                where: {
+                    userId
+                }
+            });
+
+            const data = [];
+            for (const group of groups) {
+                const gp = await db.groups.findFirst({
+                    where: {
+                        id: group.groupId
+                    }
+                });
+                if (!gp) {
+                    continue;
+                }
+
+                data.push({
+                    id: gp.id,
+                    name: gp.name,
+                    description: gp.description,
+                    creator: gp.userId,
+                    createdAt: gp.createdAt
+                });
+            }
+
+            return {
+                success: true,
+                data
+            }
+        } catch (error) {
+            logger.error(error, {
+                section: "groupMemberRepository->getJoinedGroups",
+            });
+
+            return {
+                success: false,
+                message: "خطایی رخ داده است، لطفا دوباره تلاش کنید ❌"
+            }
+        }
+    }
 }
