@@ -47,6 +47,24 @@ export class PayDuesRepository {
                 }
             });
 
+            await db.users.update({
+                where: {
+                    id: creditorId
+                },
+                data: {
+                    debts: (creditor.debts as bigint) + BigInt(1)
+                }
+            });
+
+            await db.users.update({
+                where: {
+                    id: debtorId
+                },
+                data: {
+                    owes: (debtor.owes as bigint) + BigInt(1)
+                }
+            });
+
             return {
                 success: true,
                 message: "درخواست با موفقیت ثبت شد ✅"
