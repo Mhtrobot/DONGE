@@ -1,6 +1,6 @@
 import { container } from "tsyringe";
 import { GroupServices } from "../services/groupServices";
-import { UserAuthenticatedReq } from "../../../IAMservice/src/interfaces/AuthenticatedRequest";
+import { UserAuthenticatedReq } from "../interfaces/AuthenticatedRequest.ts";
 import { validationResult } from "express-validator";
 
 const groupServices = container.resolve(GroupServices);

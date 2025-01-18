@@ -1,6 +1,6 @@
 import { container } from "tsyringe";
 import { PayDuesServices } from "../services/payDuesServices";
-import { UserAuthenticatedReq } from "../../../IAMservice/src/interfaces/AuthenticatedRequest";
+import { UserAuthenticatedReq } from "../interfaces/AuthenticatedRequest.ts";
 import { validationResult } from "express-validator";
 
 const payDuesServices = container.resolve(PayDuesServices);

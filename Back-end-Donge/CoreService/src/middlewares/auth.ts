@@ -1,7 +1,6 @@
 // src/middlewares/auth.ts
 import {validateJWT} from "../core/JWT";
-import {UserAuthenticatedReq} from "../../../IAMservice/src/interfaces/AuthenticatedRequest";
-
+import { UserAuthenticatedReq } from "../interfaces/AuthenticatedRequest.ts";
 export const protectUser = async (req: UserAuthenticatedReq, res, next) => {
     const bearer = req.headers.authorization;
 

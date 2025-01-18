@@ -53,7 +53,7 @@ export class PayDuesServices {
             return gp;
 
         const isUserInGroup = await this.groupMemberServices.getMember(groupId, userId);
-        if (!isUserInGroup.success) {
+        if (!isUserInGroup.success && gp.group.userId !== userId) {
             return {
                 success: false,
                 message: "شما در این گروه عضو نیستید ❌"
