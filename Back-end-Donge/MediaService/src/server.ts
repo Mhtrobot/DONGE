@@ -8,7 +8,12 @@ import swaggerUi from 'swagger-ui-express';
 
 const app = express();  
 
-mongoose.connect(process.env.MONGODB_URL || 'mongodb://localhost:27017/media');
+mongoose.connect(process.env.MONGODB_URL || 'mongodb://localhost:27017/media')
+    .then(() => {
+        console.log('Connected to MongoDB');
+    }).catch((error) => {
+        console.error(error);
+    });
 
 app.use(cors());
 app.use(express.json());

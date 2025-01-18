@@ -5,3 +5,4 @@ src/__tests__
 jest.config.js
 .env
 prisma/migrations
+mongodb/backup.archive

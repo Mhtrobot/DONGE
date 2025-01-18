@@ -8,7 +8,7 @@ const doc = {
         title: "Media-API",
         description: "test the routes",
     },
-    host: (process.env.BASE_URL as string).split('//')[1]+"MEDIA",
+    host: (process.env.BASE_URL as string).split('//')[1],
     securityDefinitions: {
         bearerAuth: {
             type: 'apiKey',
