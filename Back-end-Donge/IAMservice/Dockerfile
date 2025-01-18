@@ -16,7 +16,7 @@ COPY . .
 RUN npx prisma generate
 
 # Expose the port the app runs on
-EXPOSE 4567
+EXPOSE 4568
 
 # Set environment variables
 ENV NODE_ENV=production
