@@ -63,11 +63,10 @@ export class GroupMemberServices {
     }
 
     async getMembers(groupId: number, userId: number) {
-        const gp = await this.groupServices.getOwnedGroup(groupId, userId);
-
         const isUserMember = await this.groupMemberRepository.getMember(groupId, userId);
-        if (!isUserMember.success && gp.group.userId !== userId) {
-            return isUserMember;
+        if (!isUserMember.success) {
+            if (!await this.groupServices.getOwnedGroup(groupId, userId))
+                return isUserMember;
         }
         
         return await this.groupMemberRepository.getMembers(groupId);
