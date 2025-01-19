@@ -66,7 +66,7 @@ export class GroupMemberServices {
         const gp = await this.groupServices.getOwnedGroup(groupId, userId);
 
         const isUserMember = await this.groupMemberRepository.getMember(groupId, userId);
-        if (!isUserMember.success || gp.group.userId !== userId) {
+        if (!isUserMember.success && gp.group.userId !== userId) {
             return isUserMember;
         }
         
