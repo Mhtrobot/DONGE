@@ -160,7 +160,7 @@ export class GroupRepository {
     }
 
     async updateGroup(groupId: number, userId: number, name: string, description: string) {
-        try {
+        try {            
             const user = await db.users.findFirst({
                 where: {
                     id: userId
