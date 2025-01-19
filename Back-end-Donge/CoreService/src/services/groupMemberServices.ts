@@ -62,7 +62,12 @@ export class GroupMemberServices {
         return await this.groupMemberRepository.removeMember(groupId, targetUserId);
     }
 
-    async getMembers(groupId: number) {
+    async getMembers(groupId: number, userId: number) {
+        const isUserMember = await this.groupMemberRepository.getMember(groupId, userId);
+        if (!isUserMember.success) {
+            return isUserMember;
+        }
+        
         return await this.groupMemberRepository.getMembers(groupId);
     }
 

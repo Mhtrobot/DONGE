@@ -1,6 +1,5 @@
 import { inject, injectable } from "tsyringe";
 import { GroupRequestRepository } from "../repositories/groupRequestRepository";
-import { GroupMemberRepository } from "../repositories/groupMemberRepository";
 import { GroupMemberServices } from "./groupMemberServices";
 
 @injectable()
@@ -23,6 +22,9 @@ export class GroupRequestServices {
         if (!result.success)
             return result;
 
+        if (!isAccepted)
+            return result;
+
         const addMember = await this.groupMemberServices.addMember(result.groupReq.groupId, userId);
         if (!addMember.success)
             return addMember;
@@ -30,7 +32,7 @@ export class GroupRequestServices {
         return addMember;
     }
 
-    async deleteGroupRequest(userId: number, requestId: number) {
-        return await this.groupRequestRepository.deleteGroupRequest(requestId, userId);
+    async deleteGroupRequest(requestId: number) {
+        return await this.groupRequestRepository.deleteGroupRequest(requestId);
     }
 }

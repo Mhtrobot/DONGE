@@ -52,10 +52,9 @@ export const acceptGroupRequest = async (req: UserAuthenticatedReq, res) => {
 }
 
 export const deleteGroupRequest = async (req: UserAuthenticatedReq, res) => {
-    const userId = req.user.id;
     const requestId = parseInt(req.params.requestId);
 
-    const result = await groupRequestServices.deleteGroupRequest(userId, requestId);
+    const result = await groupRequestServices.deleteGroupRequest(requestId);
     if (!result.success)
         return res.status(400).json(result);
 

@@ -4,6 +4,30 @@ import db from "../utils/db";
 
 @injectable()
 export class GroupRequestRepository {
+    async getGroupReqsByGroupId(groupId: number) {
+        try {
+            const groupRequests = await db.groupRequest.findMany({
+                where: {
+                    groupId,
+                }
+            });
+
+            return {
+                success: true,
+                groupRequests,
+            };
+        } catch (error) {
+            logger.error(error, {
+                section: "groupRequestRepository->getGroupReqsByGroupId"
+            });
+
+            return {
+                success: false,
+                message: "متاسفانه نتونستیم درخواست های گروه رو بیاریم ❌😔",
+            }
+        }
+    }
+    
     async createGroupRequest(groupId: number, senderId: number, recieverPhone: string) {
         try {
             const reciever = await db.users.findFirst({
@@ -249,14 +273,14 @@ export class GroupRequestRepository {
         }
     }
 
-    async deleteGroupRequest(requestId: number, userId: number) {
+    async deleteGroupRequest(requestId: number) {
         try {
-            const user = await db.groupRequest.findFirst({
+            const req = await db.groupRequest.findFirst({
                 where: {
                     id: requestId
                 }
             });
-            if (!user) {
+            if (!req) {
                 return {
                     success: false,
                     message: "درخواستی با این شناسه پیدا نشد ❌"

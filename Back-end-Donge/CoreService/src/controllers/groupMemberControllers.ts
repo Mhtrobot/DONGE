@@ -23,9 +23,9 @@ export const getGroups = async (req: UserAuthenticatedReq, res) => {
     return res.json(result);
 }
 
-export const getMembers = async (req, res) => {
+export const getMembers = async (req: UserAuthenticatedReq, res) => {
     const groupId = parseInt(req.params.groupId);
-    const result = await groupMemberServices.getMembers(groupId);
+    const result = await groupMemberServices.getMembers(groupId, req.user.id);
     if (!result.success)
         return res.status(400).json(result);
 
