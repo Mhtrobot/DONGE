@@ -9,6 +9,7 @@ import groupRoutes from "./routes/groupRoutes";
 import groupRequestRoutes from "./routes/groupRequestRoutes";
 import groupMemberRoutes from "./routes/groupMemberRoutes";
 import payDuesRoutes from "./routes/payDuesRoutes";
+import adminRoutes from "./routes/adminRoutes";
 
 const app = express();
 app.use(cors());
@@ -21,6 +22,7 @@ app.use(session({
     saveUninitialized: false,
 }));
 
+app.use('/admin', adminRoutes);
 app.use('/cards', cardsRoutes);
 app.use('/owenedGroups', groupRoutes);
 app.use('/groupMember', groupMemberRoutes);

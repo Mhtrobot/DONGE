@@ -4,3 +4,9 @@ export interface UserAuthenticatedReq extends Request {
         id: number;
     };
 }
+
+export interface AdminAuthenticatedReq extends Request {
+    admin?: {
+        username: string;
+    };
+}
