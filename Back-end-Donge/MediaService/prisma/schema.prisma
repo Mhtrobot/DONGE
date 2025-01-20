@@ -1,0 +1,36 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("MONGODB_URL")
+}
+
+model Media {
+    id String @id @default(auto()) @map("_id") @db.ObjectId
+    filename String
+    metadata Json
+    length Int
+    chunkSize Int
+    uploadDate DateTime @default(now())
+    md5 String?
+
+    // File metadata
+    contentType String
+    userId String?
+    groupId String?
+    type String  // USER_PROFILE or GROUP_PROFILE
+
+
+
+    MediaChunk MediaChunk[]
+}
+
+model MediaChunk {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  files_id String @db.ObjectId
+  n        Int    // Chunk number  
+  data     Bytes
+  media    Media  @relation(fields: [files_id], references: [id])
+}

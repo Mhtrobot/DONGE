@@ -4,7 +4,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "ts-node index.ts"
+    "dev": "ts-node index.ts",
+    "server": "ts-node src/swagger.ts && ts-node src/index.ts"
   },
   "author": "",
   "license": "ISC",
